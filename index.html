@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat con IA locale</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #response {
+      white-space: pre-wrap;
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 100px;
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chat con IA locale</h1>
+
+  <label for="prompt">Scrivi qui il prompt:</label><br />
+  <textarea id="prompt" rows="5"></textarea><br />
+
+  <button id="send">Invia</button>
+
+  <h2>Risposta</h2>
+  <div id="response"></div>
+
+  <script>
+    const BACKEND_URL = "https://treesitetorricellirelay.onrender.com/api/chat";
+
+    const promptEl = document.getElementById("prompt");
+    const responseEl = document.getElementById("response");
+    const sendBtn = document.getElementById("send");
+
+    async function sendPrompt() {
+      const prompt = promptEl.value.trim();
+      if (!prompt) {
+        responseEl.textContent = "Scrivi qualcosa prima di inviare.";
+        return;
+      }
+
+      responseEl.textContent = "Sto pensando...";
+
+      try {
+        const res = await fetch(BACKEND_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          responseEl.textContent = "Errore dal server: " + (err.detail || res.status);
+          return;
+        }
+
+        const data = await res.json();
+        responseEl.textContent = data.response || "(nessuna risposta)";
+      } catch (e) {
+        responseEl.textContent = "Errore di rete: " + e;
+      }
+    }
+
+    sendBtn.addEventListener("click", sendPrompt);
+
+    // Invio anche con Ctrl+Invio
+    promptEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+        sendPrompt();
+      }
+    });
+  </script>
+</body>
+</html>
