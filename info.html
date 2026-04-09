@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Io sono Vivo | Il Pioppo Bianco della 4B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #4a7c59;
+            --silver-white: #e0e0e0;
+            --wood-brown: #8d6e63;
+            --leaf-green: #81c784;
+            --bg-color: #f9fbf9;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        header {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); /* Immagine di bosco generica */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-sub {
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 10%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-bottom: 5px solid var(--primary-green);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Interattività Vento */
+        #leaf-container {
+            text-align: center;
+            margin: 40px 0;
+            perspective: 1000px;
+        }
+
+        .leaf {
+            width: 100px;
+            height: 120px;
+            background-color: var(--leaf-green);
+            margin: auto;
+            border-radius: 0 100% 0 100%;
+            transition: 1s transform, 1s background-color;
+            display: inline-block;
+            box-shadow: inset 5px 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .windy .leaf {
+            transform: rotateY(180deg) skew(10deg);
+            background-color: var(--silver-white);
+        }
+
+        .btn-wind {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* Simulator di Crescita */
+        .growth-sim {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        #tree-visual {
+            font-size: 20px;
+            transition: font-size 0.5s ease;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        input[type=range] {
+            width: 80%;
+            accent-color: var(--primary-green);
+        }
+
+        /* Progetto Timeline */
+        .timeline {
+            border-left: 3px solid var(--primary-green);
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            position: absolute;
+            left: -39px;
+            top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            color: #ccc;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .highlight { color: var(--primary-green); font-weight: bold; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            section { padding: 40px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Ciao, io sono Vivo.</h1>
+        <p class="hero-sub">Il Pioppo Bianco della 4B</p>
+        <p>Radicato nel cuore dell'ITI Torricelli</p>
+    </header>
+
+    <section id="chi-sono">
+        <h2>Che cos'è un Pioppo Bianco? 🌿</h2>
+        <p>Sono un albero slanciato e fiero. Posso arrivare a sfidare il cielo fino a <b>30 metri</b> di altezza. Mi chiamano "Bianco" perché nascondo un segreto sotto le mie foglie...</p>
+        
+        <div id="leaf-container">
+            <div class="leaf" id="myLeaf"></div>
+            <p><i>Clicca il bottone per far soffiare il vento!</i></p>
+            <button class="btn-wind" onclick="toggleWind()">Soffia il Vento 💨</button>
+        </div>
+        
+        <p>Vedi? Quando il vento mi accarezza, mostro la parte inferiore delle mie foglie: è chiara, quasi d'argento. È così che sembro brillare!</p>
+        <p><b>Famiglia:</b> Salicaceae</p>
+    </section>
+
+    <section id="varieta" style="background: #eceff1;">
+        <h2>Le mie Varietà</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Populus alba "Bolleana"</h3>
+                <p>Cresco dritta e stretta, con foglie piccole e argentate. Molto elegante.</p>
+            </div>
+            <div class="card">
+                <h3>Pyramidalis</h3>
+                <p>Forma slanciata e verticale, utilizzata spesso come barriera frangivento naturale.</p>
+            </div>
+            <div class="card">
+                <h3>Pioppo Canescente</h3>
+                <p>Sono un incrocio naturale con il Pioppo Nero. Ho foglie più rotonde e un carattere molto robusto.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="crescita">
+        <h2>Guarda la mia crescita 📈</h2>
+        <div class="growth-sim">
+            <div id="tree-visual">🌳</div>
+            <p>Altezza stimata: <span id="height-val">2</span> metri</p>
+            <input type="range" min="2" max="30" value="2" id="growthSlider" oninput="updateGrowth()">
+        </div>
+    </section>
+
+    <section id="progetto">
+        <h2>Il Progetto 4B: Iniziativa Torricelli</h2>
+        <p>Sono il frutto del lavoro dei ragazzi dell'<b>Istituto Tecnico Informatico Evangelista Torricelli</b>. Faccio parte del progetto "Green School – Coloriamo di Verde".</p>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>Fase 1: Verde in classe</h3>
+                <p>Il primo biennio si occupa di curare le piccole piante dentro l'istituto, portando la natura tra i banchi.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>Fase 2: Adotta un albero</h3>
+                <p>Noi del triennio abbiamo legato ogni classe a una pianta. Io sono stato scelto dalla 4B!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="piantumazione">
+        <h2>Il mio Viaggio: Dal Ticinello al Parco Dini</h2>
+        <p>La mia vita è cambiata grazie a un'avventura. I ragazzi mi hanno recuperato (insieme ad altri 4 compagni) dal <b>Parco Agricolo Ticinello</b> utilizzando un portapacchi!</p>
+        
+        <div class="card-grid">
+            <div class="card">
+                <span style="font-size: 2rem;">⛏️</span>
+                <h3>Scavo</h3>
+                <p>Con pale e una trivella, hanno preparato la mia nuova casa al Parco Dini.</p>
+            </div>
+            <div class="card">
+                <span style="font-size: 2rem;">🏺</span>
+                <h3>Drenaggio</h3>
+                <p>Hanno riempito la base con cocci di vaso per aiutarmi a bere meglio senza far marcire le radici.</p>
+            </div>
+            <div class="card">
+                <span style="font-size: 2rem;">✏️</span>
+                <h3>Identità</h3>
+                <p>Per segnare il territorio, hanno piantato una <b>matita di legno gigante</b> nel terreno. Ora tutti sanno che io sono Vivo della 4B!</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Creato con ❤️ e codice dai ragazzi della 4B - ITI Torricelli</p>
+        <p><i>Vivo è un pioppo felice.</i></p>
+    </footer>
+
+    <script>
+        function toggleWind() {
+            const container = document.getElementById('leaf-container');
+            container.classList.toggle('windy');
+        }
+
+        function updateGrowth() {
+            const val = document.getElementById('growthSlider').value;
+            const tree = document.getElementById('tree-visual');
+            const heightDisp = document.getElementById('height-val');
+            
+            heightDisp.innerText = val;
+            // Aumenta la dimensione del font in base al valore dello slider
+            tree.style.fontSize = (val * 5 + 20) + 'px';
+        }
+    </script>
+</body>
+</html>
